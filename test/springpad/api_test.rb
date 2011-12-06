@@ -6,9 +6,9 @@ module Springpad
     let(:api) { API.new }
 
     it 'initializes a user and password from ~/.springpad' do
-      api.user.must_equal config['user']
-      api.password.must_equal config['password']
-      api.token.must_equal config['token']
+      api.instance_variable_get(:@user).must_equal config['user']
+      api.instance_variable_get(:@password).must_equal config['password']
+      api.instance_variable_get(:@token).must_equal config['token']
     end
   end
 end
