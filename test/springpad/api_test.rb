@@ -10,5 +10,11 @@ module Springpad
       api.instance_variable_get(:@password).must_equal config['password']
       api.instance_variable_get(:@token).must_equal config['token']
     end
+
+    it "fetches the notes of the user" do
+      notes = api.notes(:public => false)
+      notes.length.must_be :>, 1
+      notes.first.must_be_kind_of Blocks::Note
+    end
   end
 end
