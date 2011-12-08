@@ -1,3 +1,6 @@
+require 'highline'
+require 'stringio'
+
 module Springpad
   module Blocks
     # Public: Maps to a Springpad Note block.
@@ -18,7 +21,7 @@ module Springpad
       def self.process(json)
         json.map do |note|
           Note.new(
-            note['name'],
+            note['name'] || "(no title)",
             note['properties']['text']
           )
         end
@@ -29,7 +32,21 @@ module Springpad
       # name - the String name
       # text - the String text content
       def initialize(name, text)
-        @name, @text = name, text
+        @name = name
+        @text = text
+      end
+
+      # Public: Renders a note to the standard output.
+      #
+      # Returns nothing.
+      def render
+        out = HighLine.new
+        out.wrap_at = 78
+        out.say <<-RENDER
+<%=color("#{@name}", :bold)%>
+<%='-'*#{@name.length}%>
+#{@text}
+RENDER
       end
     end
   end

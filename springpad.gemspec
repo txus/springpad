@@ -24,4 +24,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "vcr"
   s.add_development_dependency "webmock"
   s.add_runtime_dependency "rest-client"
+  s.add_runtime_dependency "commander"
 end

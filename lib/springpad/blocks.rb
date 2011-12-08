@@ -1,7 +1,14 @@
 module Springpad
   module Blocks
+    def self.types
+      [
+        "note",
+        "task",
+      ]
+    end
   end
 end
 
-require_relative "blocks/note"
-require_relative "blocks/task"
+Springpad::Blocks.types.each do |type|
+  require_relative "blocks/#{type}"
+end

@@ -35,6 +35,19 @@ module Springpad
         @description = description
         @category    = category
       end
+
+      # Public: Renders a task to the standard output.
+      #
+      # Returns nothing.
+      def render
+        out = HighLine.new
+        out.wrap_at = 78
+        out.say <<-RENDER
+<%=color("#{@name}", :bold)%> [#{@category.upcase}]
+<%='-'*#{@name.length}%>
+#{@description}
+RENDER
+      end
     end
   end
 end

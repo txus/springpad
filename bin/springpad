@@ -1,0 +1,48 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'commander/import'
+require_relative "../lib/springpad"
+
+program :version, Springpad::VERSION
+program :description, 'Command-line client to the Springpad API.'
+program :help, 'Author', 'Josep M. Bach (Txus) <josep.m.bach@gmail.com>'
+
+command :list do |c|
+  c.syntax = 'springpad list TYPE [options]'
+  c.summary = 'Lists all elements of a certain TYPE.'
+  c.description = 'Springpad blocks have an associated type, for example Note or Task. This command lists every block you own of a certain type. The result can be filtered using [options].'
+  c.example 'List all private notes', 'springpad list note --private'
+  c.option '--private', 'Show only private blocks'
+  c.action do |args, options|
+    type = args.first
+    unless type
+      warn "A TYPE must be specified. To know about available types, run:"
+      warn "    $ springpad types"
+      abort
+    end
+    Springpad.list(type, options)
+  end
+end
+
+command :add do |c|
+  c.syntax = 'springpad add type [options]'
+  c.summary = 'Adds an element of a certain type.'
+  c.description = ''
+  c.example 'description', 'command example'
+  c.option '--some-switch', 'Some switch that does something'
+  c.action do |args, options|
+    # Do something or c.when_called Springpad::Commands::Add
+  end
+end
+
+command :types do |c|
+  c.syntax = 'springpad types'
+  c.summary = 'Lists the supported element types.'
+  c.description = ''
+  c.action do |args, options|
+    types = Springpad::Blocks.types
+    puts "Supported types are: #{types.join(', ')}"
+  end
+end
+
