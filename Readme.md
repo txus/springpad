@@ -18,6 +18,13 @@ data:
     password: YOUR_PASSWORD
     token: YOUR_CONSUMER_KEY
 
+## Usage
+
+    $ gem install springpad
+    $ springpad list note
+    $ springpad list task
+    $ springpad --help
+
 ## Running the tests
 
 Once you have the config file in place, you just have to:
