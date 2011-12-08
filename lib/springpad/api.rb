@@ -41,7 +41,65 @@ module Springpad
       get_blocks("Task", filters)
     end
 
+    # Public: Adds a new note to Springpad.
+    #
+    # contents - the Array contents of the note
+    #
+    # Returns the Boolean response.
+    def add_note(contents, options={})
+      note = Blocks::Note.new(contents.first, contents[1..-1].join("\n"))
+      post_block(note)
+    end
+
+    # Public: Adds a new task to Springpad.
+    #
+    # contents - the Array contents of the task
+    #
+    # Returns the Boolean response.
+    def add_task(contents, options={})
+      task = Blocks::Task.new(contents.first, contents[1..-1].join("\n"))
+      post_block(task)
+    end
+
+    # Public: Pushes a block to Springpad.
+    #
+    # contents - the Block to be pushed
+    #
+    # Returns the Boolean response.
+    def post_block(block)
+      shard = get_shard
+
+      JSON.parse(
+        RestClient.post(
+          @url + "/users/me/commands",
+          block.to_params(shard),
+          headers.update({
+            "Content-Type" => "application/json"
+          })
+        )
+      )["success"]
+    end
+
     ## Internal methods: to be extracted
+    #
+    # Internal: Authentication headers to perform API calls.
+    #
+    # Returns the Hash headers.
+    def headers
+      {
+        "X-Spring-Username"  => @user,
+        "X-Spring-Password"  => @password,
+        "X-Spring-Api-Token" => @token,
+      }
+    end
+
+    # Internal: Gets the user shard through an API call.
+    #
+    # Returns the String shard.
+    def get_shard
+      JSON.parse(RestClient.get(@url + "/users/me", headers))["shard"]
+    end
+
 
     # Internal: Gets a collection of blocks of a given type applying some
     # filters.

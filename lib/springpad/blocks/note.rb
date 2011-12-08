@@ -1,5 +1,6 @@
 require 'highline'
 require 'stringio'
+require 'securerandom'
 
 module Springpad
   module Blocks
@@ -47,6 +48,20 @@ module Springpad
 <%='-'*#{@name.length}%>
 #{@text}
 RENDER
+      end
+
+      # Public: Creates a query to create a Note in Springpad.
+      #
+      # shard - the String user shard.
+      #
+      # Returns the String JSON commands.
+      def to_params(shard)
+        uuid = "/UUID(#{shard}3#{SecureRandom.uuid[3..-1]})/"
+        [
+          ["create", "Note", uuid],
+          ["set", uuid, "name", @name],
+          ["set", uuid, "text", @text]
+        ].to_json
       end
     end
   end

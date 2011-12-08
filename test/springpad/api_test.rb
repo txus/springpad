@@ -22,5 +22,38 @@ module Springpad
       tasks.length.must_be :>, 0
       tasks.first.must_be_kind_of Blocks::Task
     end
+
+    it "posts a note" do
+      contents = [
+        "Note title",
+        ["Note body", "yeah"]
+      ]
+
+      api.expects(:post_block).with do |note|
+        note.name.must_equal "Note title"
+        note.text.must_equal "Note body\nyeah"
+      end.returns true
+
+      api.add_note(contents).must_equal true
+    end
+
+    it "posts a task" do
+      contents = [
+        "Task title",
+        ["Task description", "yeah"]
+      ]
+
+      api.expects(:post_block).with do |task|
+        task.name.must_equal "Task title"
+        task.description.must_equal "Task description\nyeah"
+      end.returns true
+
+      api.add_task(contents).must_equal true
+    end
+
+    it 'posts a block' do
+      note = Blocks::Note.new("Note title", "Note body")
+      api.post_block(note).must_equal true
+    end
   end
 end

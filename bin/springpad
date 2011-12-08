@@ -26,13 +26,19 @@ command :list do |c|
 end
 
 command :add do |c|
-  c.syntax = 'springpad add type [options]'
-  c.summary = 'Adds an element of a certain type.'
-  c.description = ''
-  c.example 'description', 'command example'
-  c.option '--some-switch', 'Some switch that does something'
+  c.syntax = 'springpad add TYPE [options]'
+  c.summary = 'Adds an element of a certain TYPE.'
+  c.description = 'Creates a new element of TYPE with custom properties [options]. $EDITOR will be used to create the element. The first line of the element will be its name, the other lines will vary accordying the element type.'
+  c.example 'Create a new private note', 'springpad add note --private'
+  c.option '--private', 'Make the new block private'
   c.action do |args, options|
-    # Do something or c.when_called Springpad::Commands::Add
+    type = args.first
+    unless type
+      warn "A TYPE must be specified. To know about available types, run:"
+      warn "    $ springpad types"
+      abort
+    end
+    Springpad.add(type, options)
   end
 end
 

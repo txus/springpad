@@ -23,7 +23,18 @@ module Springpad
     end
   end
 
-  def self.add
+  def self.add(type, options)
+    cli = Springpad::CLI.new
+    options = {}
+    options.merge({:public => false}) if options[:private]
+    contents = cli.edit
 
+    api = Springpad::API.new
+    case type
+    when "note"
+      p api.add_note(contents, options)
+    when "task"
+      p api.add_task(contents, options)
+    end
   end
 end
