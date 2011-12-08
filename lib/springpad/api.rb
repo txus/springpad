@@ -32,6 +32,15 @@ module Springpad
       get_blocks("Note", filters)
     end
 
+    # Public: Gets your tasks with optional filters.
+    #
+    # filters - the Hash filters to apply to the search
+    #
+    # Returns an Array of Blocks::Task.
+    def tasks(filters={})
+      get_blocks("Task", filters)
+    end
+
     ## Internal methods: to be extracted
 
     # Internal: Gets a collection of blocks of a given type applying some
@@ -45,6 +54,7 @@ module Springpad
       json = get("/users/#{@user}/blocks",
          :type    => type,
          :filters => filters)
+
       Blocks.const_get(type).process(json)
     end
 

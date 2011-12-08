@@ -13,8 +13,14 @@ module Springpad
 
     it "fetches the notes of the user" do
       notes = api.notes(:public => false)
-      notes.length.must_be :>, 1
+      notes.length.must_be :>, 0
       notes.first.must_be_kind_of Blocks::Note
+    end
+
+    it "fetches the tasks of the user" do
+      tasks = api.tasks(:public => false)
+      tasks.length.must_be :>, 0
+      tasks.first.must_be_kind_of Blocks::Task
     end
   end
 end

@@ -1,7 +1,7 @@
 require 'test_helper'
 
-module Springpad
-  describe Blocks do
+module Springpad::Blocks
+  describe Note do
     describe '.process' do
       let(:json) do
         [
@@ -22,7 +22,7 @@ module Springpad
       end
 
       it 'processes JSON notes and outputs Note objects' do
-        notes = Blocks::Note.process(json)
+        notes = Note.process(json)
         notes.length.must_equal 2
 
         notes.first.name.must_equal "Foo"
