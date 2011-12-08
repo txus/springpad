@@ -21,8 +21,19 @@ data:
 ## Usage
 
     $ gem install springpad
+
+Listing notes/tasks:
+
     $ springpad list note
     $ springpad list task
+
+Adding a new note or task:
+
+    $ springpad add note
+    $ (edit with your editor)
+
+Help about the commands:
+
     $ springpad --help
 
 ## Running the tests
